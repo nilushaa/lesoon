@@ -1,31 +1,22 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const GlobalContext = createContext();
-
 export function GlobalProvider({ children }) {
-  // 🔄 Savatni localStorage'dan olish
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem('cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
-
-  // 🔄 Dark mode holatini localStorage'dan olish
   const [darkMode, setDarkMode] = useState(() => {
     const stored = localStorage.getItem('darkMode');
     return stored ? JSON.parse(stored) : false; // Default: false
   });
-
-  // ⏺️ Dark mode o'zgarishini saqlash
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
-
-  // ⏺️ Savat o'zgarishini saqlash
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
-  // ➕ Mahsulotni savatga qo‘shish
   const addToCart = (product) => {
     setCart(prev => {
       const existing = prev.find(item => item.product.id === product.id);
@@ -39,8 +30,6 @@ export function GlobalProvider({ children }) {
       return [...prev, { product, quantity: 1 }];
     });
   };
-
-  // 🔁 Miqdorni o‘zgartirish
   const updateQuantity = (productId, newQty) => {
     setCart(prev =>
       prev
@@ -53,7 +42,6 @@ export function GlobalProvider({ children }) {
     );
   };
 
-  // ❌ Mahsulotni o‘chirish
   const removeFromCart = (productId) => {
     setCart(prev => prev.filter(item => item.product.id !== productId));
   };

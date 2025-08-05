@@ -2,8 +2,6 @@ import React from 'react';
 import ProductCard from './ProductCard';
 
 function ProductList({ products = [] }) {
-  // Istalgan category bo'yicha filtrlash mumkin yoki filtirsiz ham qoldiring
-  // Agar filtr kerak bo'lsa, masalan:
   const filteredProducts = products.filter(p =>
     ['mens-shirts', 'womens-dresses', 'tops'].includes(p.category)
   );

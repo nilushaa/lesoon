@@ -1,36 +1,33 @@
 import React from "react";
 import { useGlobalContext } from "../context/GlobalContext";
 
-export default function ProductCard({ product }) {
-  const { cart, setCart } = useGlobalContext();
-
-  const isInCart = Array.isArray(cart) && cart.some(item => item.product.id === product.id);
-
-  const addToCart = () => {
-    if (!isInCart) {
-      setCart([...cart, { product, quantity: 1 }]);
-    }
-  };
+export default function ProductCard({ product, darkMode }) {
+  const { addToCart } = useGlobalContext();
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded shadow p-4 flex flex-col hover:shadow-lg transition">
+    <div
+      className={`flex flex-col justify-between rounded-lg p-4 shadow-md transition-colors duration-300 ${
+        darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+      }`}
+    >
       <img
-        src={product.images[0]}
+        src={product.thumbnail}
         alt={product.title}
-        className="h-40 w-full object-contain mb-3"
+        className="w-full h-40 object-cover rounded-md mb-3"
       />
-      <h3 className="font-semibold text-lg mb-1">{product.title}</h3>
-      <p className="text-sm text-gray-600 dark:text-gray-300 flex-grow line-clamp-2">
-        {product.description}
-      </p>
-      <p className="mt-2 font-bold">${product.price}</p>
-      <button
-        onClick={addToCart}
-     className="mt-3 px-4 py-2 rounded bg-pink-400"
-        disabled={isInCart}
-      >
-        {isInCart ? "Savatda mavjud" : "Savatga qo‘shish"}
-      </button>
+      <div>
+        <h3 className="text-lg font-semibold">{product.title}</h3>
+        <p className="text-sm mb-2">{product.description}</p>
+        <div className="font-bold text-green-500 mb-4">${product.price}</div>
+      </div>
+      <div className="mt-auto">
+        <button
+          onClick={() => addToCart(product)}
+          className="block mx-auto bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition"
+        >
+          Savatga qo‘shish
+        </button>
+      </div>
     </div>
   );
 }

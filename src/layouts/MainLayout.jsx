@@ -1,27 +1,45 @@
-import React, { useEffect } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import React from "react";
 import { useGlobalContext } from "../context/GlobalContext";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function MainLayout({ children }) {
-  const { darkMode } = useGlobalContext();
+  const { darkMode, setDarkMode, user, logout } = useGlobalContext();
+  const navigate = useNavigate();
 
-  // Tanani classini o'zgartirish
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
-    <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex flex-col">
-      <Navbar />
-      <main className="container mx-auto px-4 py-6 flex-grow">
-        {children}
-      </main>
-      <Footer />
+    <div className={`min-h-screen flex flex-col ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
+      <header className="flex items-center justify-between p-4 shadow-md bg-gray-800 text-white">
+        <h1 className="text-2xl font-bold">Nilushoping</h1>
+
+        <nav className="flex gap-4">
+          <Link className="hover:underline" to="/">Home</Link>
+          <Link className="hover:underline" to="/about">About</Link>
+          <Link className="hover:underline" to="/contact">Contact</Link>
+          <Link className="hover:underline" to="/basket">Basket</Link>
+        </nav>
+
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="px-3 py-1 bg-green-600 rounded hover:bg-green-700 transition"
+          >
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </button>
+
+         
+        </div>
+      </header>
+
+      <main className="flex-grow p-6">{children}</main>
+
+      <footer className={`p-4 text-center ${darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-black"}`}>
+        &copy; 2025 Nilushoping
+      </footer>
     </div>
   );
 }
