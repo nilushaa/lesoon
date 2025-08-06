@@ -26,7 +26,7 @@ export default function Basket() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-6 text-gray-900 dark:text-white min-h-screen bg-white dark:bg-gray-900">
+    <div className="container mx-auto px-4 py-6 text-gray-900 dark:text-white min-h-screen dark:bg-gray-900">
       <h2 className="text-2xl font-bold mb-4">Savat</h2>
 
       {cart.length === 0 ? (

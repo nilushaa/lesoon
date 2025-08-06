@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGlobalContext } from "../context/GlobalContext";
+import { FaHeart, FaRegHeart } from "react-icons/fa"; // Like ikonkalari
 
 export default function ProductCard({ product, darkMode }) {
   const { addToCart } = useGlobalContext();
+  const [liked, setLiked] = useState(false);
+
+  const toggleLike = () => {
+    setLiked(!liked);
+  };
 
   return (
     <div
-      className={`flex flex-col justify-between rounded-lg p-4 shadow-md transition-colors duration-300 ${
+      className={`relative flex flex-col justify-between rounded-lg p-4 shadow-md transition-colors duration-300 ${
         darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
       }`}
     >
+      <button
+        onClick={toggleLike}
+        className="absolute top-2 right-2 text-xl text-pink-500 hover:scale-110 transition-transform"
+      >
+        {liked ? <FaHeart /> : <FaRegHeart />}
+      </button>
+
       <img
         src={product.thumbnail}
         alt={product.title}
